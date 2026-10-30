@@ -1,0 +1,59 @@
+name: Daily draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Topic id from data/topics.json (empty = next queued)'
+        required: false
+  schedule:
+    - cron: '23 5 * * *'   # every day 05:23 UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - id: draft
+        run: node scripts/draft-article.mjs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TOPIC: ${{ inputs.topic }}
+      - name: Validate the draft
+        if: steps.draft.outputs.drafted == 'true'
+        run: npm run validate
+      - name: Open pull request
+        if: steps.draft.outputs.drafted == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ID: ${{ steps.draft.outputs.id }}
+          TITLE: ${{ steps.draft.outputs.title }}
+          RISK: ${{ steps.draft.outputs.risk }}
+        run: |
+          branch="draft/${ID}"
+          git config user.name "primalore-bot"
+          git config user.email "primalore-bot@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/content data/topics.json
+          git commit -m "Draft: ${TITLE}"
+          git push origin "$branch"
+          {
+            echo "Automatic draft (review_status: draft). Merging this does NOT publish it."
+            echo
+            cat draft-notes.md
+            echo
+            echo "### Reviewer checklist"
+            echo "- [ ] Every statement matches the linked source"
+            echo "- [ ] Nothing added from outside the source"
+            echo "- [ ] Risk level is right (${RISK}); high and critical need a named expert and two sources"
+            echo "- [ ] To publish: set review_status to published, add the published date, then merge"
+          } > pr-body.md
+          gh pr create --base main --head "$branch" --title "Draft: ${TITLE}" --body-file pr-body.md --label draft || gh pr create --base main --head "$branch" --title "Draft: ${TITLE}" --body-file pr-body.md

@@ -12,6 +12,10 @@ Verified survival knowledge in a dystopian wrapper. Static site (Astro) at https
 - High and critical content cannot reach `expert-approved` or `published` without `reviewed_by` and at least two sources (critical: two independent publishers).
 - Each AI draft will arrive as a pull request. Merging it is publishing it.
 
+## Daily drafts
+
+`.github/workflows/daily-draft.yml` runs every day. `scripts/draft-article.mjs` takes the next topic from `data/topics.json`, reads only its listed source pages (allowlisted in `data/sources.yml`, robots.txt respected), asks Claude to write from that text alone, and opens a pull request with `review_status: draft`. Merging a draft does not publish it; a human sets `published` after review. Needs the `ANTHROPIC_API_KEY` repository secret and the setting *Allow GitHub Actions to create pull requests*.
+
 ## Commands
 
 ```
