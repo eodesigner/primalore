@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Search" description="Search every published Primalore guide.">
+  <h1>Search</h1>
+  <p class="meta">Search guides, checklists and tips by keyword.</p>
+  <div id="search"></div>
+  <noscript>Search needs JavaScript.</noscript>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (window.PagefindUI) {
+        new PagefindUI({ element: '#search', showSubResults: true, showImages: false, resetStyles: false });
+      } else {
+        document.getElementById('search').textContent = 'Search is only available on the published site.';
+      }
+    });
+  </script>
+</Base>

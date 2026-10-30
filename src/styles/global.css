@@ -32,3 +32,14 @@ h1, h2, h3 { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.2;
 .notice { border-left: 4px solid var(--amber); background: var(--bg-soft); padding: .8rem 1rem; border-radius: 0 var(--radius) var(--radius) 0; margin: 1.2rem 0; }
 .notice.critical { border-color: var(--danger); }
 .meta { color: var(--muted); font-size: .88rem; }
+
+/* Pagefind search, tuned to the dark palette */
+#search {
+  --pagefind-ui-primary: #8fae7b;
+  --pagefind-ui-text: #e6e8e3;
+  --pagefind-ui-background: #1c2024;
+  --pagefind-ui-border: #3a4148;
+  --pagefind-ui-tag: #2a3036;
+  --pagefind-ui-font: inherit;
+}
+header.site nav a + a { margin-left: 1rem; }
