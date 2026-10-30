@@ -16,7 +16,7 @@ const MAX_CHARS = 14000; // per source page, keeps cost predictable
 const TOPICS_FILE = 'data/topics.json';
 
 const out = (k, v) => process.env.GITHUB_OUTPUT && appendFileSync(process.env.GITHUB_OUTPUT, `${k}=${v}\n`);
-const stop = (msg, code = 0) => { console.log(msg); out('drafted', 'false'); process.exit(code); };
+const stop = (msg, code = 0) => { console.log(code ? `::error::${msg.replace(/\n/g, ' ')}` : msg); out('drafted', 'false'); process.exit(code); };
 
 const queue = JSON.parse(readFileSync(TOPICS_FILE, 'utf8'));
 const topic = queue.topics.find((t) => (process.env.TOPIC ? t.id === process.env.TOPIC : t.status === 'queued'));
