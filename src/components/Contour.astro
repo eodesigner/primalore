@@ -1,0 +1,11 @@
+---
+// Topographic ellipses used in place of photographs.
+interface Props { cx?: number; cy?: number; rot?: number; rings?: number; opacity?: number }
+const { cx = 150, cy = 150, rot = -18, rings = 5, opacity = 0.7 } = Astro.props;
+const radii = [26, 62, 104, 150, 200, 252].slice(0, rings);
+---
+<svg viewBox="0 0 300 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <g fill="none" stroke="var(--contour)" stroke-width="1.2" opacity={opacity}>
+    {radii.map((r) => <ellipse cx={cx} cy={cy} rx={r} ry={r * 0.65} transform={`rotate(${rot} ${cx} ${cy})`} />)}
+  </g>
+</svg>

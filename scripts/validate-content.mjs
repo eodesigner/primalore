@@ -11,6 +11,7 @@ const CATEGORIES = [
   'urban-resilience', 'mind-community',
 ];
 const TYPES = ['quick-tip', 'core-guide', 'project', 'checklist', 'news', 'species-card', 'decision-tree', 'learning-path', 'calendar', 'glossary'];
+const FORMATS = ['article', 'step-by-step', 'video'];
 const RISKS = ['low', 'medium', 'high', 'critical'];
 const STATUSES = ['draft', 'auto-checked', 'expert-approved', 'published', 'retired'];
 const GATED = ['expert-approved', 'published']; // statuses that need the full evidence set
@@ -32,6 +33,8 @@ for (const file of walk(ROOT)) {
 
   if (!TYPES.includes(d.type)) fail(`unknown type "${d.type}"`);
   if (!CATEGORIES.includes(d.category)) fail(`unknown category "${d.category}"`);
+  if (d.format !== undefined && !FORMATS.includes(d.format)) fail(`unknown format "${d.format}"`);
+  if (d.format === 'video' && !/^https:\/\//.test(d.video_url ?? '')) fail('video format needs an https video_url');
   if (!RISKS.includes(d.risk)) fail(`unknown risk "${d.risk}"`);
   if (!STATUSES.includes(d.review_status)) fail(`unknown review_status "${d.review_status}"`);
   if (rel.split(sep)[0] !== d.category) fail(`folder must match category "${d.category}"`);

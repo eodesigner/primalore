@@ -16,6 +16,8 @@ const entries = defineCollection({
     title: z.string().min(3),
     type: z.enum(contentTypes),
     category: z.enum(categories.map((c) => c.slug) as [string, ...string[]]),
+    format: z.enum(['article', 'step-by-step', 'video']).default('article'),
+    video_url: z.string().url().optional(),
     subtopic: z.string().min(2),
     level: z.number().int().min(1).max(4),
     risk: z.enum(['low', 'medium', 'high', 'critical']),

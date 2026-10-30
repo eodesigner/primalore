@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import Contour from '../components/Contour.astro';
+---
+<Base title="Page not found">
+  <section class="page-head" style="min-height:420px;justify-content:center">
+    <Contour cx={230} cy={200} rot={-16} rings={4} opacity={0.5} />
+    <span class="eyebrow" style="position:relative;color:var(--accent-text)">404 · off the map</span>
+    <h1 style="position:relative;max-width:460px">We can't find that page.</h1>
+    <p style="position:relative">It may have moved, or been retired when its source changed. Try search or pick a category.</p>
+    <div style="position:relative;display:flex;flex-wrap:wrap;gap:10px"><a class="btn primary" href="/search/">Search guides</a><a class="btn" href="/">Go to the home page</a></div>
+  </section>
+</Base>

@@ -1,24 +1,103 @@
 ---
 import Base from '../layouts/Base.astro';
+import Contour from '../components/Contour.astro';
+import RiskBadge from '../components/RiskBadge.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../data/categories';
 
 const entries = await getCollection('entries', (e) => e.data.review_status === 'published');
 const counts = Object.fromEntries(categories.map((c) => [c.slug, entries.filter((e) => e.data.category === c.slug).length]));
+const latest = [...entries]
+  .sort((a, b) => (b.data.published?.getTime() ?? 0) - (a.data.published?.getTime() ?? 0) || a.data.title.localeCompare(b.data.title))
+  .slice(0, 6);
+const catName = Object.fromEntries(categories.map((c) => [c.slug, c.name]));
+const fmt = (d?: Date) => d?.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) ?? '';
+const steps = [
+  { n: 1, h: 'We read the source', p: 'Each claim traces to an official or expert document you can open. Every source shows its class and the date we checked it.' },
+  { n: 2, h: 'We label the risk', p: 'Low, medium, high or critical, shown on every guide. The label sets how much checking comes before it goes live.' },
+  { n: 3, h: 'Experts sign off the risky ones', p: 'High and critical topics need a named reviewer and at least one class A source before they are published.' },
+];
 ---
 <Base>
-  <h1>Verified knowledge for when systems fail.</h1>
-  <p>Twelve categories, four levels: from your first fire to a long-term household plan. Every guide shows its sources and its limits.</p>
-  <h2 id="categories">Categories</h2>
-  <ul class="grid">
-    {categories.map((c) => (
+  <section class="hero">
+    <div class="main">
+      <span class="eyebrow">UK English · Verified · Sourced</span>
+      <h1>Verified knowledge for when systems fail.</h1>
+      <p>Plain guides, checklists and hands-on projects. Every one shows its sources, its risk level and who reviewed it.</p>
+      <form class="search-form" action="/search/" method="get" role="search">
+        <label for="q" class="skip">Search guides</label>
+        <input id="q" name="q" type="search" placeholder="Search: bowline, whistle, grid reference" />
+        <button type="submit">Search</button>
+      </form>
+      <span>{entries.length} guides · 12 categories · every claim sourced</span>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 600 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g fill="none" stroke="var(--contour)" stroke-width="1.4" opacity=".75">
+          {[[40, 26], [84, 56], [132, 90], [184, 126], [240, 164], [300, 206], [364, 252]].map(([rx, ry]) => <ellipse cx="350" cy="305" rx={rx} ry={ry} transform="rotate(-18 350 305)" />)}
+          {[[30, 18], [66, 40], [108, 68]].map(([rx, ry]) => <ellipse cx="120" cy="120" rx={rx} ry={ry} transform="rotate(24 120 120)" />)}
+        </g>
+        <g fill="var(--accent)"><circle cx="360" cy="300" r="7" /><circle cx="120" cy="120" r="5" /></g>
+      </svg>
+      <div class="note"><strong style="font-weight:500">Risk shown on every guide.</strong><br /><span>High and critical topics need expert sign-off before they go live.</span></div>
+      <p class="legal">Information for education only. It does not replace professional medical or emergency advice.</p>
+    </div>
+  </section>
+
+  <section class="intro" id="categories">
+    <h2>Twelve categories. Four levels. One standard of proof.</h2>
+    <p>From your first fire to a long-term household plan. Written in British English, checked against official and expert sources.</p>
+    <div class="row">
+      <a class="btn" href="#latest">Browse guides
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/method/" style="color:var(--accent-text)">How we verify</a>
+    </div>
+  </section>
+
+  <section class="tiles" aria-hidden="true">
+    <div>Read</div><div class="t2">Verify</div>
+    <div class="t3"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg></div>
+    <div>Prepare</div>
+  </section>
+
+  <section class="block" id="latest">
+    <div class="sec-head"><h2>Latest guides</h2><p>What has been checked and published so far.</p></div>
+    <div class="rows">
+      <div class="head"><span class="c1">Title</span><span class="c2">Category and risk</span><span class="c3">Added</span><span class="c4"></span></div>
+      {latest.map((e) => (
+        <a href={`/guides/${e.id}/`}>
+          <span class="c1">{e.data.title}</span>
+          <span class="c2"><span class="chip">{catName[e.data.category]}</span><RiskBadge risk={e.data.risk} /></span>
+          <span class="c3">{fmt(e.data.published)}</span>
+          <span class="c4 arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <ul class="cards">
+    {categories.map((c, i) => (
       <li>
-        <a class="card" href={`/category/${c.slug}/`}>
+        <a class={`card-cat${i % 2 ? ' alt' : ''}`} href={`/category/${c.slug}/`}>
+          <Contour cx={80 + ((i * 53) % 140)} rot={-20 + ((i * 17) % 50)} />
+          <span class="count">{counts[c.slug]} {counts[c.slug] === 1 ? 'guide' : 'guides'}</span>
           <h3>{c.name}</h3>
           <p>{c.blurb}</p>
-          <p class="meta"><span class={`badge risk-${c.risk}`}>{c.risk}</span>{counts[c.slug]} published</p>
+          <span class="go">EXPLORE CATEGORY <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
       </li>
     ))}
   </ul>
+
+  <section class="panel method" id="method" style="margin-top:40px">
+    <div>
+      <span class="chip">how we verify</span>
+      <h2 style="margin-top:20px">Nothing goes live without a source you can open.</h2>
+    </div>
+    <div>
+      {steps.map((s) => (
+        <div class="step"><span class="num">{s.n}</span><div><h3>{s.h}</h3><p>{s.p}</p></div></div>
+      ))}
+    </div>
+  </section>
 </Base>

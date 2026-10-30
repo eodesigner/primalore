@@ -1,5 +1,6 @@
 ---
 title: "How to tie a bowline"
+format: step-by-step
 type: quick-tip
 category: tools-repair
 subtopic: knots
