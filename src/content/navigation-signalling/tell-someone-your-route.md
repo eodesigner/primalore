@@ -14,10 +14,12 @@ sources:
     url: "https://osmaps.com/discover/guides/mountain-safety/"
     publisher: "Ordnance Survey (OS GetOutside)"
     reliability: A
+    accessed: 2026-10-30
   - title: "Safety"
     url: "https://cro.org.uk/safety/"
     publisher: "Cave Rescue Organisation"
     reliability: B
+    accessed: 2026-10-30
 reviewed_by: ""
 review_status: published
 published: 2026-10-30

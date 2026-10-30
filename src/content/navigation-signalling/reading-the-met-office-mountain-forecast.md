@@ -14,10 +14,12 @@ sources:
     url: "https://weather.metoffice.gov.uk/guides/mountain/forecast"
     publisher: "Met Office"
     reliability: A
+    accessed: 2026-10-30
   - title: "Stay safe in the outdoors (Advice from Mountain Rescue)"
     url: "https://osmaps.com/discover/guides/mountain-safety/"
     publisher: "Ordnance Survey (OS GetOutside)"
     reliability: A
+    accessed: 2026-10-30
 reviewed_by: ""
 review_status: published
 published: 2026-10-30

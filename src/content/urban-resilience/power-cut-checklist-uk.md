@@ -14,14 +14,17 @@ sources:
     url: "https://www.staffordshireprepared.gov.uk/know-your-risks/how-prepare-power-cut"
     publisher: "Staffordshire Prepared (Staffordshire Civil Contingencies Unit)"
     reliability: A
+    accessed: 2026-10-30
   - title: "Power cuts"
     url: "https://www.wakefield.gov.uk/our-people-and-communities/emergency-planning/what-to-do-in-an-emergency/power-cuts"
     publisher: "Wakefield Council"
     reliability: A
+    accessed: 2026-10-30
   - title: "Power cuts: prepare for and stay safe during an outage"
     url: "https://redcross.org.uk/get-help/prepare-for-emergencies/power-cut"
     publisher: "British Red Cross"
     reliability: B
+    accessed: 2026-10-30
 reviewed_by: ""
 review_status: published
 published: 2026-10-30

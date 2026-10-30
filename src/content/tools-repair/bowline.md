@@ -14,6 +14,7 @@ sources:
     url: "https://home.army.mil/drum/3817/2495/8532/Mountain_Warfare_Center_Knot_Guide.pdf"
     publisher: "US Army Mountain Warfare School"
     reliability: A
+    accessed: 2026-10-30
 reviewed_by: ""
 review_status: published
 published: 2026-10-30

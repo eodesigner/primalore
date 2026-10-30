@@ -51,6 +51,8 @@ for (const file of walk(ROOT)) {
   sources.forEach((s, i) => {
     if (!/^https?:\/\//.test(s?.url ?? '')) fail(`source ${i + 1} needs a valid url`);
     if (!['A', 'B', 'C'].includes(s?.reliability)) fail(`source ${i + 1} needs reliability A, B or C`);
+    if (!s?.accessed) fail(`source ${i + 1} needs an accessed date`);
+    if (!s?.title || !s?.publisher) fail(`source ${i + 1} needs title and publisher`);
   });
 
   if (d.type === 'species-card') {
