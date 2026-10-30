@@ -1,5 +1,6 @@
 ---
 title: "How to tie a square knot"
+format: step-by-step
 type: quick-tip
 category: tools-repair
 subtopic: knots

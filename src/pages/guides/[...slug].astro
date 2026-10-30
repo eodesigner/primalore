@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
+import RiskBadge from '../../components/RiskBadge.astro';
 import { getCollection, render } from 'astro:content';
+import { categories } from '../../data/categories';
 
 export async function getStaticPaths() {
   const entries = await getCollection('entries', (e) => e.data.review_status === 'published');
@@ -9,31 +11,47 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+const cat = categories.find((c) => c.slug === d.category);
 const fmt = (x?: Date) => x?.toISOString().slice(0, 10);
+const videoSrc = d.video_url?.replace('youtube.com/watch?v=', 'youtube-nocookie.com/embed/').replace('youtu.be/', 'youtube-nocookie.com/embed/');
 ---
-<Base title={d.title} description={d.summary}>
-  <div data-pagefind-body>
-  <p class="meta">
-    <span class={`badge risk-${d.risk}`}>{d.risk} risk</span>
-    Level {d.level} · {d.type} · Region: {d.region}
-  </p>
-  <h1 data-pagefind-meta="title">{d.title}</h1>
-  {(d.risk === 'critical') && (
-    <div class="notice critical"><strong>Identification warning.</strong> This content is not enough on its own to identify anything safely. Never eat or use a wild plant or fungus on the strength of a guide.</div>
-  )}
-  {(d.risk === 'high') && (
-    <div class="notice">Read the limits in this guide. If in doubt, seek professional help.</div>
-  )}
-  <Content />
-  <h2>Sources</h2>
-  <ul>
-    {d.sources.map((s) => (
-      <li><a href={s.url} rel="noopener">{s.title}</a>, {s.publisher} (class {s.reliability}, accessed {fmt(s.accessed)})</li>
-    ))}
-  </ul>
-  <p class="meta">
-    {d.reviewed_by && <>Reviewed by {d.reviewed_by}. </>}
-    {d.updated ? <>Last updated {fmt(d.updated)}.</> : d.published ? <>Published {fmt(d.published)}.</> : null}
-  </p>
-  </div>
+<Base title={d.title} description={d.summary} activeCategory={d.category}>
+  <article class={`guide format-${d.format}`}>
+    <div data-pagefind-body>
+      <header class="head">
+        <span class="crumbs"><a href={`/category/${d.category}/`}>{cat?.name}</a> · {d.subtopic}</span>
+        <h1 data-pagefind-meta="title">{d.title}</h1>
+        <div class="tags">
+          <RiskBadge risk={d.risk} />
+          <span class="chip">Level {d.level}</span>
+          <span class="chip">{d.type.replace('-', ' ')}</span>
+          <span class="chip">Region: {d.region}</span>
+        </div>
+      </header>
+      {d.risk === 'critical' && (
+        <div class="notice critical" role="note"><strong>Identification warning.</strong> This content is not enough on its own to identify anything safely. Never eat or use a wild plant or fungus on the strength of a guide.</div>
+      )}
+      {d.risk === 'high' && (
+        <div class="notice" role="note"><strong>Know the limits.</strong> Read the limits in this guide. If in doubt, seek professional help.</div>
+      )}
+      {d.format === 'video' && (
+        <div class="video-frame">
+          {videoSrc ? <iframe src={videoSrc} title={d.title} loading="lazy" allowfullscreen></iframe> : <span>[Video]</span>}
+        </div>
+      )}
+      <div class="prose"><Content /></div>
+    </div>
+    <section class="sources" aria-labelledby="sources-h">
+      <h2 id="sources-h">Sources</h2>
+      <ul>
+        {d.sources.map((s) => (
+          <li><a href={s.url} rel="noopener">{s.title}</a>, {s.publisher} (class {s.reliability}, accessed {fmt(s.accessed)})</li>
+        ))}
+      </ul>
+      <p class="meta" style="margin:16px 0 0">
+        {d.reviewed_by ? <>Reviewed by {d.reviewed_by}. </> : <>Not yet reviewed by an expert. </>}
+        {d.updated ? <>Last updated {fmt(d.updated)}.</> : d.published ? <>Published {fmt(d.published)}.</> : null}
+      </p>
+    </section>
+  </article>
 </Base>

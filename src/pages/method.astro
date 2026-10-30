@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import RiskBadge from '../components/RiskBadge.astro';
+const tiers = [
+  { risk: 'low', p: 'Automatic checks and one named source. Examples: knots, reading a map.' },
+  { risk: 'medium', p: 'At least one class A or B source. Safe-use limits are shown in the text.' },
+  { risk: 'high', p: 'A named expert reviewer and at least two sources, one of them class A, before publication.' },
+  { risk: 'critical', p: 'As high, with two independent publishers. Identification topics never claim to be enough on their own.' },
+] as const;
+const classes = [
+  { c: 'A', p: 'Official or expert bodies: government, mountain rescue, health services, standards bodies.' },
+  { c: 'B', p: 'Established organisations and recognised practitioners.' },
+  { c: 'C', p: 'Useful background. Never the only basis for a high or critical guide.' },
+];
+---
+<Base title="How we verify" description="How Primalore sources, labels and reviews every guide.">
+  <section class="page-head accent">
+    <span class="eyebrow">How we verify</span>
+    <h1>Nothing goes live without a source you can open.</h1>
+    <p>Every guide shows where it came from, how risky the topic is and who checked it.</p>
+  </section>
+  <section class="panel" style="margin-bottom:24px">
+    <h2 style="font-size:32px;margin-bottom:20px">Risk levels</h2>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      {tiers.map((t) => (<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center"><span style="width:150px"><RiskBadge risk={t.risk} /></span><span style="flex:1 1 320px;color:var(--muted)">{t.p}</span></div>))}
+    </div>
+  </section>
+  <section class="panel">
+    <h2 style="font-size:32px;margin-bottom:20px">Source classes</h2>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      {classes.map((c) => (<div style="display:flex;gap:20px;align-items:flex-start"><span class="num">{c.c}</span><span style="color:var(--muted);padding-top:8px">{c.p}</span></div>))}
+    </div>
+    <p class="meta" style="margin-top:28px">Every change to a guide is a reviewed pull request in <a href="https://github.com/eodesigner/primalore" rel="noopener" style="color:var(--accent-text)">the public repository</a>, so its history stays visible.</p>
+  </section>
+</Base>

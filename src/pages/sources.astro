@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const entries = await getCollection('entries', (e) => e.data.review_status === 'published');
+const map = new Map<string, { title: string; publisher: string; reliability: string; url: string; guides: { id: string; title: string }[] }>();
+for (const e of entries) for (const s of e.data.sources) {
+  const row = map.get(s.url) ?? { title: s.title, publisher: s.publisher, reliability: s.reliability, url: s.url, guides: [] };
+  row.guides.push({ id: e.id, title: e.data.title });
+  map.set(s.url, row);
+}
+const rows = [...map.values()].sort((a, b) => a.publisher.localeCompare(b.publisher));
+---
+<Base title="Sources" description="Every source behind a published Primalore guide.">
+  <section class="page-head">
+    <h1>Sources</h1>
+    <p>Every source used by a published guide, with its class and the guides that rely on it.</p>
+  </section>
+  <ul class="list" style="grid-template-columns:1fr">
+    {rows.map((r) => (
+      <li class="card">
+        <div class="meta-row"><span class="chip">Class {r.reliability}</span><span class="meta">{r.publisher}</span></div>
+        <h3><a href={r.url} rel="noopener" style="color:var(--accent-text)">{r.title}</a></h3>
+        <p>Used by: {r.guides.map((g, i) => (<>{i > 0 && ', '}<a href={`/guides/${g.id}/`} style="text-decoration:underline">{g.title}</a></>))}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

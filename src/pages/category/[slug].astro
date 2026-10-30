@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Contour from '../../components/Contour.astro';
+import RiskBadge from '../../components/RiskBadge.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../data/categories';
 
@@ -9,20 +11,27 @@ export function getStaticPaths() {
 const { category } = Astro.props;
 const entries = (await getCollection('entries', (e) => e.data.category === category.slug && e.data.review_status === 'published'))
   .sort((a, b) => a.data.level - b.data.level || a.data.title.localeCompare(b.data.title));
+const typeLabel = (t: string) => t.replace('-', ' ');
 ---
-<Base title={category.name} description={category.blurb}>
-  <h1>{category.name}</h1>
-  <p>{category.blurb}</p>
+<Base title={category.name} description={category.blurb} activeCategory={category.slug}>
+  <section class="page-head">
+    <Contour cx={220} cy={120} rot={-16} rings={6} opacity={0.45} />
+    <span class="eyebrow" style="position:relative;color:var(--accent-text)">Category</span>
+    <h1 style="position:relative">{category.name}</h1>
+    <p style="position:relative">{category.blurb}</p>
+    <div style="position:relative;display:flex;gap:8px;flex-wrap:wrap"><RiskBadge risk={category.risk} /><span class="chip">{entries.length} {entries.length === 1 ? 'guide' : 'guides'}</span></div>
+  </section>
   {entries.length === 0 ? (
-    <p class="meta">No published guides yet. New guides arrive daily once review is complete.</p>
+    <div class="empty">No published guides yet. New guides arrive daily once review is complete.</div>
   ) : (
-    <ul class="grid">
+    <ul class="list">
       {entries.map((e) => (
         <li>
           <a class="card" href={`/guides/${e.id}/`}>
+            <div class="meta-row"><span class="chip">{typeLabel(e.data.type)}</span><span class="meta">Level {e.data.level}</span></div>
             <h3>{e.data.title}</h3>
             <p>{e.data.summary}</p>
-            <p class="meta"><span class={`badge risk-${e.data.risk}`}>{e.data.risk}</span>Level {e.data.level} · {e.data.type}</p>
+            <div class="meta-row"><RiskBadge risk={e.data.risk} /></div>
           </a>
         </li>
       ))}
