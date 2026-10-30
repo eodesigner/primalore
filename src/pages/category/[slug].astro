@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/categories';
+
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { slug: c.slug }, props: { category: c } }));
+}
+const { category } = Astro.props;
+const entries = (await getCollection('entries', (e) => e.data.category === category.slug && e.data.review_status === 'published'))
+  .sort((a, b) => a.data.level - b.data.level || a.data.title.localeCompare(b.data.title));
+---
+<Base title={category.name} description={category.blurb}>
+  <h1>{category.name}</h1>
+  <p>{category.blurb}</p>
+  {entries.length === 0 ? (
+    <p class="meta">No published guides yet. New guides arrive daily once review is complete.</p>
+  ) : (
+    <ul class="grid">
+      {entries.map((e) => (
+        <li>
+          <a class="card" href={`/guides/${e.id}/`}>
+            <h3>{e.data.title}</h3>
+            <p>{e.data.summary}</p>
+            <p class="meta"><span class={`badge risk-${e.data.risk}`}>{e.data.risk}</span>Level {e.data.level} · {e.data.type}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

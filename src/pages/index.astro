@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../data/categories';
+
+const entries = await getCollection('entries', (e) => e.data.review_status === 'published');
+const counts = Object.fromEntries(categories.map((c) => [c.slug, entries.filter((e) => e.data.category === c.slug).length]));
+---
+<Base>
+  <h1>Verified knowledge for when systems fail.</h1>
+  <p>Twelve categories, four levels: from your first fire to a long-term household plan. Every guide shows its sources and its limits.</p>
+  <h2 id="categories">Categories</h2>
+  <ul class="grid">
+    {categories.map((c) => (
+      <li>
+        <a class="card" href={`/category/${c.slug}/`}>
+          <h3>{c.name}</h3>
+          <p>{c.blurb}</p>
+          <p class="meta"><span class={`badge risk-${c.risk}`}>{c.risk}</span>{counts[c.slug]} published</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

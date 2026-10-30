@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('entries', (e) => e.data.review_status === 'published');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const fmt = (x?: Date) => x?.toISOString().slice(0, 10);
+---
+<Base title={d.title} description={d.summary}>
+  <p class="meta">
+    <span class={`badge risk-${d.risk}`}>{d.risk} risk</span>
+    Level {d.level} · {d.type} · Region: {d.region}
+  </p>
+  <h1>{d.title}</h1>
+  {(d.risk === 'critical') && (
+    <div class="notice critical"><strong>Identification warning.</strong> This content is not enough on its own to identify anything safely. Never eat or use a wild plant or fungus on the strength of a guide.</div>
+  )}
+  {(d.risk === 'high') && (
+    <div class="notice">Read the limits in this guide. If in doubt, seek professional help.</div>
+  )}
+  <Content />
+  <h2>Sources</h2>
+  <ul>
+    {d.sources.map((s) => (
+      <li><a href={s.url} rel="noopener">{s.title}</a>, {s.publisher} (class {s.reliability}, accessed {fmt(s.accessed)})</li>
+    ))}
+  </ul>
+  <p class="meta">
+    {d.reviewed_by && <>Reviewed by {d.reviewed_by}. </>}
+    {d.updated ? <>Last updated {fmt(d.updated)}.</> : d.published ? <>Published {fmt(d.published)}.</> : null}
+  </p>
+</Base>

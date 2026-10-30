@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string }
+const { title, description = 'Primalore: verified survival knowledge for a harder world.' } = Astro.props;
+const full = title ? `${title} | Primalore` : 'Primalore';
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#14171a" />
+    <title>{full}</title>
+  </head>
+  <body>
+    <header class="site">
+      <a class="brand" href="/">Primalore</a>
+      <nav><a href="/#categories">Categories</a></nav>
+    </header>
+    <main><slot /></main>
+    <footer class="site">
+      <span>Information for education only. It does not replace professional medical or emergency advice.</span>
+    </footer>
+  </body>
+</html>
