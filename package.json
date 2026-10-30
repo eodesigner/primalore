@@ -7,13 +7,15 @@
     "dev": "astro dev",
     "validate": "node scripts/validate-content.mjs",
     "build": "npm run validate && astro build && pagefind --site dist",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check-sources": "node scripts/check-sources.mjs"
   },
   "dependencies": {
     "astro": "^5.0.0"
   },
   "devDependencies": {
     "gray-matter": "^4.0.3",
-    "pagefind": "^1.1.0"
+    "pagefind": "^1.1.0",
+    "yaml": "^2.6.0"
   }
 }

@@ -1,0 +1,31 @@
+# Primalore source inventory (Faz 2). The crawler only visits domains listed here.
+# status: pending-check = not yet verified; active = robots.txt and terms checked; paused; rejected.
+# reliability: A official/academic, B expert body, C community (never sufficient alone).
+# Domains were compiled from memory and must be verified by scripts/check-sources.mjs and a human
+# review of each site's terms before a source becomes "active".
+
+- {id: who, name: "World Health Organization", domain: who.int, reliability: A, categories: [water, first-aid-hygiene, mind-community, food], status: pending-check}
+- {id: govuk, name: "UK Government", domain: gov.uk, reliability: A, categories: [urban-resilience, food, first-aid-hygiene], license: "Open Government Licence where stated", status: pending-check}
+- {id: cdc, name: "Centers for Disease Control and Prevention", domain: cdc.gov, reliability: A, categories: [water, first-aid-hygiene, food], license: "US government work, check page notices", status: pending-check}
+- {id: nhs, name: "NHS (UK)", domain: nhs.uk, reliability: A, categories: [first-aid-hygiene, mind-community], status: pending-check}
+- {id: redcross-uk, name: "British Red Cross", domain: redcross.org.uk, reliability: B, categories: [first-aid-hygiene, urban-resilience], status: pending-check}
+- {id: sja, name: "St John Ambulance", domain: sja.org.uk, reliability: B, categories: [first-aid-hygiene], status: pending-check}
+- {id: resus-uk, name: "Resuscitation Council UK", domain: resus.org.uk, reliability: A, categories: [first-aid-hygiene], status: pending-check}
+- {id: ready, name: "Ready.gov / FEMA", domain: ready.gov, reliability: A, categories: [urban-resilience, mind-community], license: "US government work", status: pending-check}
+- {id: afad, name: "AFAD (Turkey)", domain: afad.gov.tr, reliability: A, categories: [urban-resilience], status: pending-check}
+- {id: ifrc, name: "IFRC", domain: ifrc.org, reliability: A, categories: [urban-resilience, mind-community, water], status: pending-check}
+- {id: sphere, name: "Sphere Standards", domain: spherestandards.org, reliability: A, categories: [water, shelter, urban-resilience], status: pending-check}
+- {id: fsa, name: "UK Food Standards Agency", domain: food.gov.uk, reliability: A, categories: [food], status: pending-check}
+- {id: nchfp, name: "National Center for Home Food Preservation", domain: nchfp.uga.edu, reliability: A, categories: [food], status: pending-check}
+- {id: fao, name: "Food and Agriculture Organization", domain: fao.org, reliability: A, categories: [growing, food], status: pending-check}
+- {id: kew, name: "Royal Botanic Gardens, Kew", domain: kew.org, reliability: A, categories: [foraging, growing], status: pending-check}
+- {id: bms, name: "British Mycological Society", domain: britmycolsoc.org.uk, reliability: B, categories: [foraging], status: pending-check}
+- {id: woodland-trust, name: "Woodland Trust", domain: woodlandtrust.org.uk, reliability: B, categories: [foraging, shelter], status: pending-check}
+- {id: os, name: "Ordnance Survey", domain: os.uk, reliability: A, categories: [navigation-signalling], status: pending-check}
+- {id: mrew, name: "Mountain Rescue England and Wales", domain: mountain-rescue.org.uk, reliability: B, categories: [navigation-signalling, shelter], status: pending-check}
+- {id: metoffice, name: "Met Office", domain: metoffice.gov.uk, reliability: A, categories: [navigation-signalling, shelter], status: pending-check}
+- {id: hse, name: "UK Health and Safety Executive", domain: hse.gov.uk, reliability: A, categories: [power-light, fire-heat], status: pending-check}
+- {id: gas-safe, name: "Gas Safe Register", domain: gassaferegister.co.uk, reliability: B, categories: [power-light, fire-heat], status: pending-check}
+- {id: rhs, name: "Royal Horticultural Society", domain: rhs.org.uk, reliability: B, categories: [growing], status: pending-check}
+- {id: garden-organic, name: "Garden Organic", domain: gardenorganic.org.uk, reliability: B, categories: [growing], status: pending-check}
+- {id: mountain-training, name: "Mountain Training", domain: mountaintraining.org, reliability: B, categories: [tools-repair, navigation-signalling], status: pending-check}

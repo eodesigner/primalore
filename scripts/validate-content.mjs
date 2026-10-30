@@ -68,6 +68,7 @@ for (const file of walk(ROOT)) {
       if (sources.length < 2) fail(`${d.risk} risk needs at least two sources before "${d.review_status}"`);
       const publishers = new Set(sources.map((s) => String(s?.publisher ?? '').trim().toLowerCase()));
       if (d.risk === 'critical' && publishers.size < 2) fail('critical risk needs two independent publishers');
+      if (!sources.some((s) => s?.reliability === 'A')) fail(`${d.risk} risk needs at least one class A source before "${d.review_status}"`);
     }
   }
   if (d.review_status === 'published' && !d.published) fail('published content needs a published date');
