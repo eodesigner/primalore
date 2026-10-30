@@ -18,7 +18,6 @@ const fmt = (x?: Date) => x?.toISOString().slice(0, 10);
     Level {d.level} · {d.type} · Region: {d.region}
   </p>
   <h1 data-pagefind-meta="title">{d.title}</h1>
-  <span hidden data-pagefind-filter={`category:${d.category}`}></span>
   {(d.risk === 'critical') && (
     <div class="notice critical"><strong>Identification warning.</strong> This content is not enough on its own to identify anything safely. Never eat or use a wild plant or fungus on the strength of a guide.</div>
   )}
