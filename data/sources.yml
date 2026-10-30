@@ -29,3 +29,9 @@
 - {id: rhs, name: "Royal Horticultural Society", domain: rhs.org.uk, reliability: B, categories: [growing], status: pending-check}
 - {id: garden-organic, name: "Garden Organic", domain: gardenorganic.org.uk, reliability: B, categories: [growing], status: pending-check}
 - {id: mountain-training, name: "Mountain Training", domain: mountaintraining.org, reliability: B, categories: [tools-repair, navigation-signalling], status: pending-check}
+- {id: osmaps, name: "OS GetOutside / OS Maps Discover", domain: osmaps.com, reliability: A, categories: [navigation-signalling, shelter], license: "Ordnance Survey; check site terms", status: pending-check}
+- {id: cro, name: "Cave Rescue Organisation", domain: cro.org.uk, reliability: B, categories: [navigation-signalling, shelter], status: pending-check}
+- {id: metoffice-weather, name: "Met Office weather site", domain: weather.metoffice.gov.uk, reliability: A, categories: [navigation-signalling], status: pending-check}
+- {id: staffordshire-prepared, name: "Staffordshire Prepared", domain: staffordshireprepared.gov.uk, reliability: A, categories: [urban-resilience], status: pending-check}
+- {id: wakefield, name: "Wakefield Council", domain: wakefield.gov.uk, reliability: A, categories: [urban-resilience], status: pending-check}
+- {id: us-army-mwsch, name: "US Army (home.army.mil)", domain: home.army.mil, reliability: A, categories: [tools-repair], license: "US government work", status: pending-check}
