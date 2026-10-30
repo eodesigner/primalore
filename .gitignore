@@ -1,6 +1,8 @@
-node_modules/
-dist/
+.DS_Store
 .astro/
 .env
 .env.*
-.DS_Store
+dist/
+draft-notes.md
+node_modules/
+pr-body.md

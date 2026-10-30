@@ -1,0 +1,47 @@
+{
+  "_note": "Queue for the daily drafting pipeline. status: queued | drafted | failed. Every url must be on a domain in data/sources.yml. Metadata and sources come from here, never from the model.",
+  "topics": [
+    {
+      "id": "burns-and-scalds-first-aid",
+      "title": "First aid for burns and scalds",
+      "category": "first-aid-hygiene",
+      "subtopic": "burns",
+      "type": "core-guide",
+      "format": "step-by-step",
+      "level": 1,
+      "risk": "high",
+      "region": "UK",
+      "brief": "What to do in the first minutes, how to judge severity, and when to get urgent help.",
+      "sources": [
+        {
+          "title": "Burns and scalds: treatment",
+          "url": "https://www.nhs.uk/conditions/burns-and-scalds/treatment/",
+          "publisher": "NHS",
+          "reliability": "A"
+        }
+      ],
+      "status": "queued"
+    },
+    {
+      "id": "food-safety-in-a-power-cut",
+      "title": "Food safety in a power cut",
+      "category": "food",
+      "subtopic": "storage",
+      "type": "quick-tip",
+      "format": "article",
+      "level": 1,
+      "risk": "medium",
+      "region": "UK",
+      "brief": "How long food stays safe in a fridge and freezer when the power is off, and what to throw away.",
+      "sources": [
+        {
+          "title": "Food safety in a power cut: advice for consumers",
+          "url": "https://www.food.gov.uk/safety-hygiene/food-safety-in-a-power-cut-advice-for-consumers",
+          "publisher": "Food Standards Agency",
+          "reliability": "A"
+        }
+      ],
+      "status": "queued"
+    }
+  ]
+}
